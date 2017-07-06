@@ -2,7 +2,11 @@ import Foundation
 
 public struct CallDetails {
     var arguments = [[Any]]()
-    var calls = 0
+    var count: Int {
+        get {
+            return arguments.count
+        }
+    }
 }
 
 public class Calls {
@@ -14,11 +18,7 @@ public class Calls {
             detail = CallDetails()
         }
 
-        if arguments != nil {
-            detail!.arguments.append(arguments)
-        }
-
-        detail!.calls += 1
+        detail!.arguments.append(arguments)
 
         self.details.updateValue(detail!, forKey: method)
     }
