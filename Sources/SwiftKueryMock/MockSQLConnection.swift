@@ -3,6 +3,8 @@ import SwiftKuery
 
 public class MockSQLConnection: Connection {
 
+    public var calls = Calls()
+
     struct TestPreparedStatement: PreparedStatement {}
 
     public init() {
@@ -17,12 +19,12 @@ public class MockSQLConnection: Connection {
     ///
     /// - Parameter onCompletion: The function to be called when the connection is established.
     public func connect(onCompletion: (QueryError?) -> Void) {
-
+        self.calls.called(method: "connect", arguments: [Any]())
     }
 
     /// Close the connection to the database.
     public func closeConnection() {
-
+        self.calls.called(method: "closeConnection", arguments: [Any]())
     }
 
     /// An indication whether there is a connection to the database.
@@ -33,7 +35,7 @@ public class MockSQLConnection: Connection {
     /// - Parameter query: The query to execute.
     /// - Parameter onCompletion: The function to be called when the execution of the query has completed.
     public func execute(query: Query, onCompletion: @escaping ((QueryResult) -> Void)) {
-
+        self.calls.called(method: "execute", arguments: [query, onCompletion])
     }
 
     /// Execute a raw query.
@@ -41,7 +43,7 @@ public class MockSQLConnection: Connection {
     /// - Parameter query: A String with the query to execute.
     /// - Parameter onCompletion: The function to be called when the execution of the query has completed.
     public func execute(_ raw: String, onCompletion: @escaping ((QueryResult) -> Void)) {
-
+        self.calls.called(method: "execute", arguments: [raw, onCompletion])
     }
 
     /// Execute a query with parameters.
@@ -50,7 +52,7 @@ public class MockSQLConnection: Connection {
     /// - Parameter parameters: An array of the parameters.
     /// - Parameter onCompletion: The function to be called when the execution of the query has completed.
     public func execute(query: Query, parameters: [Any?], onCompletion: @escaping ((QueryResult) -> Void)) {
-
+        self.calls.called(method: "execute", arguments: [query, parameters, onCompletion])
     }
 
     /// Execute a raw query with parameters.
@@ -59,7 +61,7 @@ public class MockSQLConnection: Connection {
     /// - Parameter parameters: An array of the parameters.
     /// - Parameter onCompletion: The function to be called when the execution of the query has completed.
     public func execute(_ raw: String, parameters: [Any?], onCompletion: @escaping ((QueryResult) -> Void)) {
-
+        self.calls.called(method: "execute", arguments: [raw, parameters, onCompletion])
     }
 
     /// Execute a query with parameters.
@@ -68,7 +70,7 @@ public class MockSQLConnection: Connection {
     /// - Parameter parameters: A dictionary of the parameters with parameter names as the keys.
     /// - Parameter onCompletion: The function to be called when the execution of the query has completed.
     public func execute(query: Query, parameters: [String:Any?], onCompletion: @escaping ((QueryResult) -> Void)) {
-
+        self.calls.called(method: "execute", arguments: [query, parameters, onCompletion])
     }
 
     /// Execute a raw query with parameters.
@@ -77,7 +79,7 @@ public class MockSQLConnection: Connection {
     /// - Parameter parameters: A dictionary of the parameters with parameter names as the keys.
     /// - Parameter onCompletion: The function to be called when the execution of the query has completed.
     public func execute(_ raw: String, parameters: [String:Any?], onCompletion: @escaping ((QueryResult) -> Void)) {
-
+        self.calls.called(method: "execute", arguments: [raw, parameters, onCompletion])
     }
 
     /// Prepare statement.
@@ -86,6 +88,7 @@ public class MockSQLConnection: Connection {
     /// - Returns: The prepared statement.
     /// - Throws: QueryError.syntaxError if query build fails, or a database error if it fails to prepare statement.
     public func prepareStatement(_ query: Query) throws -> PreparedStatement {
+        self.calls.called(method: "prepareStatement", arguments: [query])
         return TestPreparedStatement()
     }
 
@@ -95,6 +98,7 @@ public class MockSQLConnection: Connection {
     /// - Returns: The prepared statement.
     /// - Throws: QueryError.syntaxError if query build fails, or a database error if it fails to prepare statement.
     public func prepareStatement(_ raw: String) throws -> PreparedStatement {
+        self.calls.called(method: "prepareStatement", arguments: [raw])
         return TestPreparedStatement()
     }
 
@@ -103,7 +107,7 @@ public class MockSQLConnection: Connection {
     /// - Parameter preparedStatement: The prepared statement to execute.
     /// - Parameter onCompletion: The function to be called when the execution has completed.
     public func execute(preparedStatement: PreparedStatement, onCompletion: @escaping ((QueryResult) -> Void)) {
-
+        self.calls.called(method: "execute", arguments: [preparedStatement, onCompletion])
     }
 
     /// Execute a prepared statement with parameters.
@@ -112,7 +116,7 @@ public class MockSQLConnection: Connection {
     /// - Parameter parameters: An array of the parameters.
     /// - Parameter onCompletion: The function to be called when the execution has completed.
     public func execute(preparedStatement: PreparedStatement, parameters: [Any?], onCompletion: @escaping ((QueryResult) -> Void)) {
-
+        self.calls.called(method: "execute", arguments: [preparedStatement, parameters, onCompletion])
     }
 
     /// Execute a prepared statement with parameters.
@@ -121,7 +125,7 @@ public class MockSQLConnection: Connection {
     /// - Parameter parameters: A dictionary of the parameters with parameter names as the keys.
     /// - Parameter onCompletion: The function to be called when the execution has completed.
     public func execute(preparedStatement: PreparedStatement, parameters: [String:Any?], onCompletion: @escaping ((QueryResult) -> Void)) {
-
+        self.calls.called(method: "execute", arguments: [preparedStatement, parameters, onCompletion])
     }
 
     /// Release a prepared statement.
@@ -129,7 +133,7 @@ public class MockSQLConnection: Connection {
     /// - Parameter preparedStatement: The prepared statement to release.
     /// - Parameter onCompletion: The function to be called when the execution has completed.
     public func release(preparedStatement: PreparedStatement, onCompletion: @escaping ((QueryResult) -> Void)) {
-
+        self.calls.called(method: "release", arguments: [preparedStatement, onCompletion])
     }
 
     /// Return a String representation of the query.
@@ -138,6 +142,8 @@ public class MockSQLConnection: Connection {
     /// - Returns: A String representation of the query.
     /// - Throws: QueryError.syntaxError if query build fails.
     public func descriptionOf(query: Query) throws -> String {
+        self.calls.called(method: "descriptionOf", arguments: [query])
+
         return ""
     }
 
@@ -145,21 +151,21 @@ public class MockSQLConnection: Connection {
     ///
     /// - Parameter onCompletion: The function to be called when the execution of start transaction command has completed.
     public func startTransaction(onCompletion: @escaping ((QueryResult) -> Void)) {
-
+        self.calls.called(method: "startTransaction", arguments: [onCompletion])
     }
 
     /// Commit the current transaction.
     ///
     /// - Parameter onCompletion: The function to be called when the execution of commit transaction command has completed.
     public func commit(onCompletion: @escaping ((QueryResult) -> Void)) {
-
+        self.calls.called(method: "commit", arguments: [onCompletion])
     }
 
     /// Rollback the current transaction.
     ///
     /// - Parameter onCompletion: The function to be called when the execution of rolback transaction command has completed.
     public func rollback(onCompletion: @escaping ((QueryResult) -> Void)) {
-
+        self.calls.called(method: "rollback", arguments: [onCompletion])
     }
 
     /// Create a savepoint.
@@ -167,7 +173,7 @@ public class MockSQLConnection: Connection {
     /// - Parameter savepoint: The name to  be given to the created savepoint.
     /// - Parameter onCompletion: The function to be called when the execution of create savepoint command has completed.
     public func create(savepoint: String, onCompletion: @escaping ((QueryResult) -> Void)) {
-
+        self.calls.called(method: "create", arguments: [savepoint, onCompletion])
     }
 
     /// Rollback the current transaction to the specified savepoint.
@@ -175,7 +181,7 @@ public class MockSQLConnection: Connection {
     /// - Parameter to savepoint: The name of the savepoint to rollback to.
     /// - Parameter onCompletion: The function to be called when the execution of rolback transaction command has completed.
     public func rollback(to savepoint: String, onCompletion: @escaping ((QueryResult) -> Void)) {
-
+        self.calls.called(method: "rollback", arguments: [savepoint, onCompletion])
     }
 
     /// Release a savepoint.
@@ -183,6 +189,6 @@ public class MockSQLConnection: Connection {
     /// - Parameter savepoint: The name of the savepoint to release.
     /// - Parameter onCompletion: The function to be called when the execution of release savepoint command has completed.
     public func release(savepoint: String, onCompletion: @escaping ((QueryResult) -> Void)) {
-
+        self.calls.called(method: "release", arguments: [savepoint, onCompletion])
     }
 }
