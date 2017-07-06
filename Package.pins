@@ -1,0 +1,12 @@
+{
+  "autoPin": true,
+  "pins": [
+    {
+      "package": "SwiftKuery",
+      "reason": null,
+      "repositoryURL": "https://github.com/IBM-Swift/Swift-Kuery.git",
+      "version": "0.13.2"
+    }
+  ],
+  "version": 1
+}
