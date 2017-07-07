@@ -19,12 +19,12 @@ public class MockSQLConnection: Connection {
     ///
     /// - Parameter onCompletion: The function to be called when the connection is established.
     public func connect(onCompletion: (QueryError?) -> Void) {
-        self.calls.called(method: "connect", arguments: [Any]())
+        self.calls.called(method: "connect", arguments: nil)
     }
 
     /// Close the connection to the database.
     public func closeConnection() {
-        self.calls.called(method: "closeConnection", arguments: [Any]())
+        self.calls.called(method: "closeConnection", arguments: nil)
     }
 
     /// An indication whether there is a connection to the database.
