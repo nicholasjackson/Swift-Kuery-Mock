@@ -11,6 +11,7 @@ public struct CallDetails {
 
 public class Calls {
     var details = [String: CallDetails]()
+    var callbacks = [String: (([Any]) -> Void)]()
 
     public func called(method: String, arguments: [Any]!) {
         var detail = self.details[method]
@@ -21,5 +22,13 @@ public class Calls {
         detail!.arguments.append(arguments)
 
         self.details.updateValue(detail!, forKey: method)
+
+        if let callback = callbacks[method] {
+            callback(arguments)
+        }
+    }
+
+    public func on(method: String, callback: @escaping ((_ arguments: [Any]) -> Void)) {
+        callbacks[method] = callback
     }
 }
