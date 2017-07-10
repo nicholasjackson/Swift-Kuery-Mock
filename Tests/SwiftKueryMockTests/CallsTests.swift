@@ -1,5 +1,6 @@
 import Foundation
 import XCTest
+import SwiftKuery
 
 @testable import SwiftKueryMock
 
@@ -39,6 +40,23 @@ public class CallsTests: XCTestCase {
         XCTAssertNotNil(args, "Args should have been returned")
     }
 
+    public func testOnCallIfCallbackRegisteredWithMatchAnyArgumentsCallbackCalled() {
+        var callback = false
+        var args: [Any]?
+        let calls = Calls()
+
+        let callbackArg: ((QueryResult) -> Void) = {_ in}
+
+        calls.on(method:"testMethod", withArguments: ["true", callbackArg]) {arguments in
+            callback = true
+            args = arguments
+        }
+
+        calls.called(method: "testMethod", arguments: [MatchAny(), MatchAny()])
+
+        XCTAssertTrue(callback, "Callback should have been called")
+        XCTAssertNotNil(args, "Args should have been returned")
+    }
     public func testOnCallNoCallbackRegisteredCallbackNotCalled() {
         var callback = false
         var args: [Any]?
