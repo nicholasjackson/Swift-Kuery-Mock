@@ -51,7 +51,7 @@ public class Calls {
                 if let args1 = callback.arguments, let args2 = arguments {
                     let equal = args1.elementsEqual(args2) { (obj1, obj2) in
 
-                        if obj2 is MatchAny { return true }
+                        if obj1 is MatchAny || obj2 is MatchAny { return true }
                         if isTypeEqual(type: Query.self, a: obj1, b: obj2) { return true }
                         if isTypeEqual(type: ((QueryResult) -> Void).self, a: obj1, b: obj2) { return true }
                         if isTypeEqual(type: [Any?].self, a: obj1, b: obj2) { return true }
